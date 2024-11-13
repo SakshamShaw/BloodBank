@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blood Bank - Add Blood</title>
+    <style>
+        body {
+             font-family: Arial, sans-serif;
+             background-color: grey;
+             margin: 0;
+             align-items: center ;
+             height: 100vh;
+             width: 100%;
+         }
+        .header {
+             width: 100%;
+             background-color:  darkgray;
+             border-bottom: 3px solid white;
+             padding-top: 10px;
+             position: relative;
+         }
+
+         .house {
+             height: 30px;
+             width: 30px;
+             padding:  7px;
+             cursor: pointer;
+             border: 3px solid black;
+             border-radius: 50%;
+             position: absolute;
+             right: 25px;
+             top: 25px;
+         }
+
+         h1{
+             color: white;
+             font-family: Verdana, Geneva, Tahoma, sans-serif;
+             font-size:7vh;
+             text-shadow: 5px 5px cadetblue ;
+             font-weight: bolder;
+             padding-left: 40%;
+         }
+
+         h2 {
+             text-align: center;
+             color: darkcyan;
+         }
+
+         form {
+             max-height: 80vh;
+             max-width: 500px;
+             margin: 8px auto;
+             padding: 10px;
+             background-color: #fff;
+             border: 3px groove darkslategrey;
+             border-radius: 5px;
+         }
+
+         label {
+             display: block;
+             margin-bottom: 8px;
+             margin-left: 5px;
+             font-weight: bolder;
+             color: blueviolet;
+         }
+
+         input[type="text"],
+         input[type="number"],
+         select {
+             width: 80%;
+             padding: 8px;
+             margin-left: 5px;
+             margin-bottom: 15px;
+             border: 2px solid blueviolet;
+             border-radius: 4px;
+         }
+         input[type="button"] {
+             width: 100%;
+             margin: 8px auto;
+             padding: 15px;
+             background-color: dimgray;
+             color: white;
+             border: none;
+             border-radius: 4px;
+             cursor: pointer;
+         }
+
+         input[type="button"]:hover {
+             background-color: #218838;
+         }
+    </style>
+</head>
+
+<body>
+<div class="header">
+    <h1>Life Line</h1>
+    <a href="index.html">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512 "
+             class="house"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+            <path
+                    d="M575.8 255.5c0 18-15 32.1-32 32.1l-32 0 .7 160.2c0 2.7-.2 5.4-.5 8.1l0 16.2c0 22.1-17.9 40-40 40l-16 0c-1.1 0-2.2 0-3.3-.1c-1.4 .1-2.8 .1-4.2 .1L416 512l-24 0c-22.1 0-40-17.9-40-40l0-24 0-64c0-17.7-14.3-32-32-32l-64 0c-17.7 0-32 14.3-32 32l0 64 0 24c0 22.1-17.9 40-40 40l-24 0-31.9 0c-1.5 0-3-.1-4.5-.2c-1.2 .1-2.4 .2-3.6 .2l-16 0c-22.1 0-40-17.9-40-40l0-112c0-.9 0-1.9 .1-2.8l0-69.7-32 0c-18 0-32-14-32-32.1c0-9 3-17 10-24L266.4 8c7-7 15-8 22-8s15 2 21 7L564.8 231.5c8 7 12 15 11 24z" />
+        </svg>
+    </a>
+
+</div>
+
+<form>
+    <h2>Add Blood Details </h2>
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" required>
+
+    <label for="gender">Gender:</label>
+    <select id="gender" name="gender" required>
+        <option value="">Select Gender</option>
+        <option value="M">Male</option>
+        <option value="F">Female</option>
+        <option value="O">Other</option>
+    </select>
+
+    <label for="age">Age:</label>
+    <input type="number" id="age" name="age" id="age" required>
+
+    <label for="bloodGroup">Blood Group:</label>
+    <select id="bloodGroup" name="bloodGroup" required>
+        <option value="">Select Blood Group</option>
+        <option value="A+">A+</option>
+        <option value="A-">A-</option>
+        <option value="B+">B+</option>
+        <option value="B-">B-</option>
+        <option value="AB+">AB+</option>
+        <option value="AB-">AB-</option>
+        <option value="O+">O+</option>
+        <option value="O-">O-</option>
+    </select>
+
+    <input type="button" id="b1" value="Add Blood" required>
+    <i class=""></i>
+    <div id="msg">
+    </div>
+</form>
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        function clearBoxes() {
+            $("#name").val("");
+            $("#gender").val("");
+            $("#age").val("");
+            $("#bloodGroup").val("");
+        }
+        $("#b1").click(function () {
+            var name = $("#name").val();
+            var gender = $("#gender").val();
+            var age = $("#age").val();
+            var bgroup = $("#bloodGroup").val();
+            $.ajax({
+                type: "post",
+                contentType: "application/json",
+                dataType: "json",
+                url: "http://localhost:8080/blood/api/addBlood",
+                method: 'post',
+                data: JSON.stringify({ 'name': name, 'gender': gender, 'age': age, 'bloodGroup': bgroup }),
+                success: function (data) {
+                    clearBoxes();
+                    console.log(data)
+                    $("#msg").html("Data Saved !!!")
+                }
+            })
+
+        })
+    })
+</script>
+
+</html>

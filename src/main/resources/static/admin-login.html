@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: wheat;
+            margin: 0;
+            text-align: center;
+            align-items: center ;
+            height: 80vh;
+            width: 100%;
+        }
+       .header {
+            width: 100%;
+            background-color: burlywood;
+            border-bottom: 3px solid #333;
+            padding-top: 10px;
+            position: relative;
+        }
+
+        .house {
+            height: 30px;
+            width: 30px;
+            padding:  7px;
+            cursor: pointer;
+            border: 3px solid black;
+            border-radius: 50%;
+            position: absolute;
+            right: 25px;
+            top: 25px;
+        }
+
+        h1{
+            color: white;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            font-size:7vh;
+            text-shadow: 5px 5px cadetblue ;
+            font-weight: bolder;
+        }
+
+
+        .login-container {
+            background-color: white;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px black;
+            width: 40%;
+            margin: auto;
+            border: 3px solid gray;
+             margin-top:15px;
+        }
+
+        h2 {
+            text-align: center;
+            color: cadetblue;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            margin-left: 10%;
+            color: darkcyan;
+            font-weight: bolder;
+            text-align: left;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 80%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            border: 1px solid cadetblue;
+        }
+
+        button {
+            width: 75%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: cadetblue;
+            color: white;
+            cursor: pointer;
+            font-weight: bolder;
+        }
+
+        button:hover {
+            background-color: #31b0d5;
+        }
+    </style>
+</head>
+
+<body>
+<div class="header">
+    <h1>
+        Life Line
+    </h1>
+    <a href="index.html">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512 "
+             class="house"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+            <path
+                    d="M575.8 255.5c0 18-15 32.1-32 32.1l-32 0 .7 160.2c0 2.7-.2 5.4-.5 8.1l0 16.2c0 22.1-17.9 40-40 40l-16 0c-1.1 0-2.2 0-3.3-.1c-1.4 .1-2.8 .1-4.2 .1L416 512l-24 0c-22.1 0-40-17.9-40-40l0-24 0-64c0-17.7-14.3-32-32-32l-64 0c-17.7 0-32 14.3-32 32l0 64 0 24c0 22.1-17.9 40-40 40l-24 0-31.9 0c-1.5 0-3-.1-4.5-.2c-1.2 .1-2.4 .2-3.6 .2l-16 0c-22.1 0-40-17.9-40-40l0-112c0-.9 0-1.9 .1-2.8l0-69.7-32 0c-18 0-32-14-32-32.1c0-9 3-17 10-24L266.4 8c7-7 15-8 22-8s15 2 21 7L564.8 231.5c8 7 12 15 11 24z" />
+        </svg>
+    </a>
+</div>
+
+<div class="login-container">
+    <h2>Admin Login</h2>
+    <form id="loginForm" >
+        <label for="id">Login ID:</label>
+        <input type="text" id="id" name="id" required placeholder="Enter your ID">
+
+        <label for="password">Password :</label>
+        <input type="password" id="password" name="adminPassword" required placeholder="Enter your password"
+               maxlength="20">
+
+        <button type="submit">Login</button>
+
+
+    </form>
+</div>
+
+<script>
+    document.getElementById('loginForm').addEventListener('submit', function (event) {
+        event.preventDefault();
+        const id = document.getElementById('id').value;
+        const password = document.getElementById('password').value;
+        let  authe = false;
+
+        if (!/^\d+$/.test(id)) {
+            alert("Admin ID must be an integer.");
+            return;
+        }
+
+        if (password.length > 20 || password.length === 0) {
+            alert("Password must be between 1 and 20 characters long.");
+            return;
+        }
+
+        const loginData = {
+            id: id,
+            password: password
+        };
+                console.log("Entered Credentials: ", loginData);
+
+
+        fetch('http://localhost:8080/blood/api/admin', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log("Database Creddentials: ", data);
+
+                    if(data[0].id==loginData.id && data[0].password==loginData.password)
+                    {
+                        console.log("yes")
+                        alert("Welcome, Saksham")
+                        redirect();
+                    }
+                    else{
+                        console.log("no..")
+                        alert("Invalid Credentials")
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert("An error occurred while logging in.");
+            });
+    });
+
+    function redirect() {
+        authe=true
+            if (authe) {
+                window.location.href="action.html"
+            }
+        }
+
+
+</script>
+
+</body>
+
+</html>

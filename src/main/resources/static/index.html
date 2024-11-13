@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LifeLine</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e48a87;
+            margin: 0;
+            padding: 20px;
+            height: 500px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        h1 {
+            color: lemonchiffon;
+            margin-left: 40%;
+            text-shadow: 5px 5px red;
+        }
+
+        .login-button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #d30b04;
+            color: white;
+            cursor: pointer;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 20px auto 0;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px black;
+        }
+
+        h2 {
+            text-align: center;
+            color: darkred;
+        }
+
+        #searchForm {
+            text-align: center;
+        }
+
+        #bloodGroupInput,
+        #genderFilter,
+        #ageFilter {
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            margin-bottom: 10px;
+            width: 80%;
+        }
+
+        #genderFilter,
+        #ageFilter {
+            padding: 5px;
+            width: auto;
+        }
+
+        .search-button {
+            padding: 10px 20px;
+            border: 2px black;
+            border-radius: 5px;
+            background-color: #d30b04;
+            color: white;
+            cursor: pointer;
+            width: 25%;
+        }
+
+        .results {
+            margin-top: 20px;
+        }
+
+        .result-item {
+            padding: 15px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            background-color: #f9f9f9;
+        }
+
+        .add-blood-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #d9534f;
+            color: white;
+            cursor: pointer;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            width: 25%;
+        }
+
+        .no-records {
+            color: red;
+            font-weight: bold;
+        }
+
+        .error-message {
+            color: red;
+        }
+
+        button:hover {
+            background-color: cadetblue;
+        }
+
+        .campaign-slider {
+            margin-top: 20px;
+            overflow: hidden;
+            position: relative;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .campaign-slider-inner {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .campaign-box {
+            min-width: 44%;
+            padding: 8px;
+            border: 2px solid #e48a87;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px black;
+            background-color: #f9f9f9;
+            text-align: left;
+            margin: 8px;
+        }
+        .campaign-box:hover{
+            box-shadow: 5px 12px 9px black;
+            font-size: 1.1em;
+            font-family: 'Times New Roman', Times, serif;
+            font-weight: bolder;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="header">
+    <h1>LifeLine Services</h1>
+    <button onclick="window.location.href='admin-login.html'" class="login-button">
+        Login by Admin
+    </button>
+</div>
+
+<div class="container">
+    <h2>Search Blood Group</h2>
+    <form id="searchForm">
+        <label for="bloodGroupInput">Blood Group:</label>
+        <select id="bloodGroupInput">
+            <option value="all">All</option>
+            <option value="A+">A+</option>
+            <option value="A-">A-</option>
+            <option value="B+">B+</option>
+            <option value="B-">B-</option>
+            <option value="AB+">AB+</option>
+            <option value="AB-">AB-</option>
+            <option value="O+">O+</option>
+            <option value="O-">O-</option>
+        </select>
+
+        <div>
+            <label for="genderFilter">Gender: </label>
+            <select id="genderFilter">
+                <option value="">All</option>
+                <option value="M">Male</option>
+                <option value="F">Female</option>
+                <option value="O">Other</option>
+            </select>
+
+            <label for="ageFilter">Sort by Age: </label>
+            <select id="ageFilter">
+                <option value="none">None</option>
+                <option value="asc">Ascending</option>
+                <option value="desc">Descending</option>
+            </select>
+        </div>
+
+        <button type="button" onclick="searchBloodGroup()" class="search-button">
+            Search
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
+                 style="height: 15px; align-self: auto; margin-left:10px;">
+                <path
+                        d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z" />
+            </svg>
+        </button>
+    </form>
+
+    <div id="results" class="results"></div>
+
+    <button onclick="window.location.href='h1.html'" class="add-blood-button">
+        Add Blood
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"
+             style="height: 15px; align-self: auto; margin-left:10px;">
+            <path
+                    d="M96 128a128 128 0 1 1 256 0A128 128 0 1 1 96 128zM0 482.3C0 383.8 79.8 304 178.3 304l91.4 0C368.2 304 448 383.8 448 482.3c0 16.4-13.3 29.7-29.7 29.7L29.7 512C13.3 512 0 498.7 0 482.3zM504 312l0-64-64 0c-13.3 0-24-10.7-24-24s10.7-24 24-24l64 0 0-64c0-13.3 10.7-24 24-24s24 10.7 24 24l0 64 64 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-64 0 0 64c0 13.3-10.7 24-24 24s-24-10.7-24-24z" />
+        </svg>
+    </button>
+
+    <!-- Campaign Slider -->
+    <h2>Current Campaigns</h2>
+    <div class="campaign-slider">
+        <div class="campaign-slider-inner" id="campaignSlider"></div>
+    </div>
+</div>
+
+<script>
+    function searchBloodGroup() {
+        const bloodGroup = document.getElementById('bloodGroupInput').value;
+        const genderFilter = document.getElementById('genderFilter').value;
+        const ageFilter = document.getElementById('ageFilter').value;
+        const resultsDiv = document.getElementById('results');
+        resultsDiv.innerHTML = ''; // Clear previous results
+
+        let apiUrl = bloodGroup === 'all' ? 'http://localhost:8080/blood/api/getAll' : `http://localhost:8080/blood/api/getBlood/${bloodGroup}`;
+
+        fetch(apiUrl)
+            .then(response => response.json())
+            .then(data => {
+                if (genderFilter) {
+                    data = data.filter(blood => blood.gender.toLowerCase() === genderFilter.toLowerCase());
+                }
+                if (bloodGroup !== 'all' && ageFilter !== 'none') {
+                    data.sort((a, b) => {
+                        return ageFilter === 'asc' ? a.age - b.age : b.age - a.age;
+                    });
+                }
+
+                if (data.length > 0) {
+                    data.forEach(blood => {
+                        const bloodInfo = `
+<div class="result-item">
+<p><strong>ID:</strong> ${blood.id}</p>
+<p><strong>Name:</strong> ${blood.name}</p>
+<p><strong>Gender:</strong> ${blood.gender}</p>
+<p><strong>Age:</strong> ${blood.age}</p>
+<p><strong>Blood Group:</strong> ${blood.bloodGroup}</p>
+</div>
+`;
+                        resultsDiv.innerHTML += bloodInfo;
+                    });
+                } else {
+                    resultsDiv.innerHTML = '<p class="no-records">No records found.</p>';
+                }
+
+            })
+            .catch(error => {
+                resultsDiv.innerHTML = '<p class="error-message">Error fetching data.</p>';
+                console.error('Error:', error);
+            });
+    }
+
+    // Fetch and display campaigns
+    function fetchCampaigns() {
+        const campaignSlider = document.getElementById('campaignSlider');
+
+        fetch('http://localhost:8080/blood/api/admin/all')
+            .then(response => response.json())
+            .then(campaigns => {
+                campaigns.forEach(campaign => {
+                    const campaignBox = `
+<div class="campaign-box">
+<h3>${campaign.c_Name}</h3>
+<p><strong>Campaign ID:</strong> ${campaign.campaign_Id}</p>
+<p><strong>Location:</strong> ${campaign.location}</p>
+<p><strong>Date:</strong> ${new Date(campaign.date).toLocaleDateString()}</p>
+</div>
+`;
+                    campaignSlider.innerHTML += campaignBox;
+                });
+                startSlider();
+            })
+            .catch(error => {
+                console.error('Error fetching campaigns:', error);
+            });
+    }
+
+    // Start the auto slider
+    function startSlider() {
+        const slider = document.querySelector('.campaign-slider-inner');
+        let index = 0;
+        const totalSlides = slider.children.length-2;
+
+        setInterval(() => {
+            index = (index + 1) % totalSlides;
+            slider.style.transform = `translateX(-${index * 100}%)`;
+        }, 4000); // Change slide every 3 seconds
+    }
+
+    // Fetch campaigns on page load
+    window.onload = fetchCampaigns;
+</script>
+
+</body>
+
+</html>

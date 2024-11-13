@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Campaign</title>
+    <style>
+        body {
+           font-family: Arial, sans-serif;
+            background-color:lightyellow;
+            margin: 0;
+            text-align: center;
+            align-items: center ;
+            height: 80vh;
+            width: 100%;
+        }
+        .header {
+            width: 100%;
+            background-color: darkseagreen;
+            border-bottom: 3px solid #333;
+            padding-top: 10px;
+            position: relative;
+        }
+
+        .house {
+            height: 30px;
+            width: 30px;
+            padding:  7px;
+            cursor: pointer;
+            border: 3px solid black;
+            border-radius: 50%;
+            position: absolute;
+            right: 25px;
+            top: 25px;
+        }
+
+        h1{
+            color: darkgreen    ;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            font-size:7vh;
+            text-shadow: 5px 5px white ;
+            font-weight: bolder;
+        }
+        h2{
+            color: seagreen;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            font-weight: bolder;
+
+        }
+
+        .container {
+            max-width: 400px;
+            margin: auto;
+            background-color: white;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px black;
+            width: 40%;
+            margin: auto;
+            border: 3px solid gray;
+             margin-top:15px;
+        }
+
+        label {
+             display: block;
+            margin-bottom: 10px;
+            margin-left: 10%;
+            color: seagreen;
+            font-weight: bolder;
+            text-align: left;
+        }
+
+        input[type="text"],
+        input[type="date"] {
+            width: 80%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            border: 1px solid darkseagreen;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: darkseagreen ;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: darkslategrey;
+        }
+    </style>
+</head>
+
+<body>
+<div class="header">
+    <h1>
+        Life Line
+    </h1>
+    <a href="index.html">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512 "
+             class="house"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+            <path
+                    d="M575.8 255.5c0 18-15 32.1-32 32.1l-32 0 .7 160.2c0 2.7-.2 5.4-.5 8.1l0 16.2c0 22.1-17.9 40-40 40l-16 0c-1.1 0-2.2 0-3.3-.1c-1.4 .1-2.8 .1-4.2 .1L416 512l-24 0c-22.1 0-40-17.9-40-40l0-24 0-64c0-17.7-14.3-32-32-32l-64 0c-17.7 0-32 14.3-32 32l0 64 0 24c0 22.1-17.9 40-40 40l-24 0-31.9 0c-1.5 0-3-.1-4.5-.2c-1.2 .1-2.4 .2-3.6 .2l-16 0c-22.1 0-40-17.9-40-40l0-112c0-.9 0-1.9 .1-2.8l0-69.7-32 0c-18 0-32-14-32-32.1c0-9 3-17 10-24L266.4 8c7-7 15-8 22-8s15 2 21 7L564.8 231.5c8 7 12 15 11 24z" />
+        </svg>
+    </a>
+</div>
+<div class="container">
+    <h2>Add Campaign</h2>
+    <form id="campaignForm">
+        <label for="campaignId">Campaign ID:</label>
+        <input type="text" id="campaignId" name="campaignId" required>
+
+        <label for="cityName">Campaign Slogan</label>
+        <input type="text" id="cityName" name="cityName" required>
+
+        <label for="date">Date:</label>
+        <input type="date" id="date" name="date" required>
+
+        <label for="location">Location:</label>
+        <input type="text" id="location" name="location" required>
+
+        <button type="submit">Submit</button>
+    </form>
+</div>
+
+<!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+            function clearBoxes() {
+                $("#campaignId").val("");
+                $("#cityName").val("");
+                $("#date").val("");
+                $("#location").val("");
+            }
+        $("#campaignForm").submit(function (event) {
+            event.preventDefault();
+
+            var campaignData = {
+                campaign_Id: $("#campaignId").val(),
+                c_Name: $("#cityName").val(),
+                date: $("#date").val(),
+                location: $("#location").val()
+            };
+
+            $.ajax({
+                type: "POST",
+                url: "http://localhost:8080/blood/api/addCamp",
+                contentType: "application/json",
+                data: JSON.stringify(campaignData),
+                success: function (response) {
+                    alert(response.message);
+                    clearBoxes();
+                },
+                error: function () {
+                    alert("Error adding campaign. Please try again.");
+                }
+            });
+        });
+    });
+</script>
+</body>
+
+</html>
